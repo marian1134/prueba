@@ -12,6 +12,10 @@ public class BinariosFile {
 	/*
 	 * HOLA
 	 */
+	
+	/*
+	 * RAMA
+	 */
 
 	private static File archivo;//Crea el archivo 
 	private static final String FOLDER_NAME = "data";//Crea el archivo binario
