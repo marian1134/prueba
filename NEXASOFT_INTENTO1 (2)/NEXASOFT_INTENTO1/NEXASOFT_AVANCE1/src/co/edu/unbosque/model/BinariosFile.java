@@ -9,6 +9,9 @@ import java.io.ObjectOutputStream;
 
 
 public class BinariosFile {
+	/*
+	 * HOLA
+	 */
 
 	private static File archivo;//Crea el archivo 
 	private static final String FOLDER_NAME = "data";//Crea el archivo binario
