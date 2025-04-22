@@ -16,7 +16,9 @@ public class BinariosFile {
 	private static ObjectOutputStream oos;//Escribe sobre el archivo
 	private static FileInputStream fis;//Convierte los datos binarios para retornarlos normales
 	private static ObjectInputStream ois;//lee sobre el archivo binario
-
+	/*
+	 * ADIOS
+	 */
 	public static void checkFolder() {//Verifica de la carpeta existe
 
 		archivo = new File(FOLDER_NAME);//crea la carpeta
