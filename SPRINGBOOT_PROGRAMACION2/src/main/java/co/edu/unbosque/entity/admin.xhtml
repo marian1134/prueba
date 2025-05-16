@@ -1,0 +1,212 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui"> 
+	<f:metadata>
+  <f:viewAction action="#{UserBean.checkAdminAccess}" />
+</f:metadata>
+	<h:head>
+	<title>Gestión de Usuarios</title>
+	<link
+		href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+		rel="stylesheet"
+		integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+		crossorigin="anonymous" />
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+		crossorigin="anonymous"></script>
+	<style>
+        .form-container {
+            background: url('https://img.freepik.com/foto-gratis/pared-estudio-degradado-amarillo-oro-lujo-abstracto-bien-uso-como-fondo-diseno-banner-presentacion-producto_1258-56101.jpg') no-repeat center/cover;
+            padding: 20px;
+            border-radius: 8px;
+        }
+    </style>
+</h:head> <h:body>
+	<div class="container my-4 form-container"> <h:form
+		id="formUsers" prependId="false">
+		<p:growl id="msgs" showDetail="true" skipDetailIfEqualsSummary="true"
+			life="5000" />
+	 <h:panelGroup layout="block" style="display:flex; justify-content:space-between; align-items:center;">
+         
+            <p:commandButton value="Cerrar sesión"
+                             icon="pi pi-sign-out"
+                             styleClass="ui-button-danger"
+                             action="#{UserBean.logout}"
+                             process="@this"              
+                             ajax="false"               
+                             />
+        </h:panelGroup>
+		<p:tabView dynamic="true" cache="false">
+
+			<p:tab title="Crear">
+				<h:panelGrid columns="2" columnClasses="label,value" cellpadding="5">
+					<h:outputLabel for="usernameR" value="Username:" />
+					<p:inputText id="usernameR" value="#{UserBean.usernameR}"
+						label="Username" />
+
+					<h:outputLabel for="passwordR" value="Password:" />
+					<p:password id="passwordR" value="#{UserBean.passwordR}"
+						label="Password" />
+
+					<h:outputLabel for="nombreR" value="Nombre:" />
+					<p:inputText id="nombreR" value="#{UserBean.nombreR}"
+						label="Nombre" />
+
+					<h:outputLabel for="cedulaR" value="Cédula:" />
+					<p:inputText id="cedulaR" value="#{UserBean.cedulaR}"
+						label="Cédula" />
+
+					<h:outputLabel for="direccionR" value="Dirección:" />
+					<p:inputText id="direccionR" value="#{UserBean.direccionR}"
+						label="Dirección" />
+						
+					<p:outputLabel for="@next" value="Rol" />
+					<p:selectOneMenu id="option" value="#{UserBean.roleSeleccionado}">
+						<f:selectItem itemLabel="Usuario" itemValue="USER" />
+						<f:selectItem itemLabel="Administrador" itemValue="ADMIN" />
+					</p:selectOneMenu>
+
+					<h:outputLabel for="imagenPerfilR" value="Imagen Perfil:" />
+					<p:fileUpload id="imagenPerfilR" value="#{UserBean.file}"
+						mode="simple" label="Imagen" />
+
+
+				</h:panelGrid>
+				<p:commandButton value="Guardar" icon="pi pi-save"
+					styleClass="btn btn-success mt-3"
+					actionListener="#{UserBean.crear}" process="@form"
+					update="@form msgs" />
+			</p:tab>
+
+			<p:tab title="Eliminar">
+				<p:dataTable paginatorPosition="bottom" var="u" value="#{UserBean.lista}" rows="10"
+					paginator="true" rowsPerPageTemplate="5,10,20">
+					<p:column headerText="Username">
+						<h:outputText value="#{u.username}" />
+					</p:column>
+					<p:column headerText="Nombre">
+						<h:outputText value="#{u.nombre}" />
+					</p:column>
+					<p:column headerText="Cédula">
+						<h:outputText value="#{u.cedula}" />
+					</p:column>
+					<p:column headerText="Dirección">
+						<h:outputText value="#{u.direccion}" />
+					</p:column>
+					<p:column headerText="Pais">
+						<h:outputText value="#{u.pais}" />
+					</p:column>
+					<p:column headerText="Rol">
+						<h:outputText value="#{u.role}" />
+					</p:column>
+				</p:dataTable>
+				<h:panelGrid columns="2" columnClasses="label,value" cellpadding="5"
+					style="margin-top:20px;">
+					<h:outputLabel for="usernameToDelete" value="Username a eliminar:" />
+					<p:inputText id="usernameToDelete"
+						value="#{UserBean.usernameToDelete}" />
+				</h:panelGrid>
+			
+				<p:commandButton value="Eliminar" icon="pi pi-trash"
+					styleClass="btn btn-danger mt-3"
+					actionListener="#{UserBean.deleteUser}" process="@form"
+					update="@form msgs" />
+			</p:tab>
+
+			<p:tab title="Actualizar">
+				<p:dataTable var="u" paginatorPosition="bottom" value="#{UserBean.lista}" rows="10"
+					paginator="true" rowsPerPageTemplate="5,10,20">
+					<p:column headerText="Username">
+						<h:outputText value="#{u.username}" />
+					</p:column>
+					<p:column headerText="Nombre">
+						<h:outputText value="#{u.nombre}" />
+					</p:column>
+					<p:column headerText="Cédula">
+						<h:outputText value="#{u.cedula}" />
+					</p:column>
+					<p:column headerText="Dirección">
+						<h:outputText value="#{u.direccion}" />
+					</p:column>
+					<p:column headerText="Pais">
+						<h:outputText value="#{u.pais}" />
+					</p:column>
+					<p:column headerText="Rol">
+						<h:outputText value="#{u.role}" />
+					</p:column>
+				</p:dataTable>
+				<h:panelGrid columns="2" columnClasses="label,value" cellpadding="5"
+					style="margin-top:20px;">
+					<h:outputLabel for="usernameToUpload" value="Username a actualizar:" />
+					<p:inputText id="usernameToUpload"
+						value="#{UserBean.usernameToUpload}" />
+				</h:panelGrid>
+				<h:panelGrid columns="2" columnClasses="label,value" cellpadding="5">
+					<h:outputLabel for="usernameUpload" value="Username:" />
+					<p:inputText id="usernameUpload" value="#{UserBean.usernameU}"
+						label="Username" />
+
+					<h:outputLabel for="passwordUpload" value="Password:" />
+					<p:password id="passwordUpload" value="#{UserBean.passwordU}"
+						label="Password" />
+
+					<h:outputLabel for="nombreUpload" value="Nombre:" />
+					<p:inputText id="nombreUpload" value="#{UserBean.nombreU}"
+						label="Nombre" />
+
+					<h:outputLabel for="cedulaUpload" value="Cédula:" />
+					<p:inputText id="cedulaUpload" value="#{UserBean.cedulaU}"
+						label="Cédula" />
+
+					<h:outputLabel for="direccionUpload" value="Dirección:" />
+					<p:inputText id="direccionUpload" value="#{UserBean.direccionU}"
+						label="Dirección" />
+						
+					<p:outputLabel for="@next" value="Rol" />
+					<p:selectOneMenu id="UploadR" value="#{UserBean.roleSeleccionadoU}">
+						<f:selectItem itemLabel="Usuario" itemValue="USER" />
+						<f:selectItem itemLabel="Administrador" itemValue="ADMIN" />
+					</p:selectOneMenu>
+
+					<h:outputLabel for="imagenPerfilRUpload" value="Imagen Perfil:" />
+					<p:fileUpload id="imagenPerfilRUpload" value="#{UserBean.fileU}"
+						mode="simple" label="Imagen" />
+
+
+				</h:panelGrid>
+				<p:commandButton value="Actualizar" icon="pi pi-sync"
+					styleClass="btn btn-danger mt-3"
+					actionListener="#{UserBean.updateUser}" process="@form"
+					update="@form msgs" />
+			</p:tab>
+			<p:tab title="Mostrar">
+				<p:dataTable var="u" paginatorPosition="bottom"  value="#{UserBean.lista}" rows="10"
+					paginator="true" rowsPerPageTemplate="5,10,20">
+					<p:column headerText="Username">
+						<h:outputText value="#{u.username}" />
+					</p:column>
+					<p:column headerText="Nombre">
+						<h:outputText value="#{u.nombre}" />
+					</p:column>
+					<p:column headerText="Cédula">
+						<h:outputText value="#{u.cedula}" />
+					</p:column>
+					<p:column headerText="Dirección">
+						<h:outputText value="#{u.direccion}" />
+					</p:column>
+					<p:column headerText="Pais">
+						<h:outputText value="#{u.pais}" />
+					</p:column>
+					<p:column headerText="Rol">
+						<h:outputText value="#{u.role}" />
+					</p:column>
+				</p:dataTable>
+			</p:tab>
+		</p:tabView>
+	</h:form> </div>
+</h:body> </html>
